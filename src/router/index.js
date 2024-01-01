@@ -25,37 +25,42 @@ const routes = [
   },{
     path: '/user',
     name: 'UserView',
-    component: () => import(/* webpackChunkName: "about" */ '../views/UserView.vue'),
+    component: () => import('../views/UserView.vue'),
+    meta: {show:true}
+  },{
+    path: '/user/search',
+    name: 'UserSearchView',
+    component: () => import('../views/UserSearchView.vue'),
     meta: {show:true}
   },{
     path: '/team/search',
     name: 'TeamSearchView',
-    component: () => import(/* webpackChunkName: "about" */ '../views/TeamSearchView.vue'),
+    component: () => import('../views/TeamSearchView.vue'),
     meta: {show:true}
   },{
     path: '/team',
     name: 'TeamView',
-    component: () => import(/* webpackChunkName: "about" */ '../views/TeamView.vue'),
+    component: () => import('../views/TeamView.vue'),
     meta: {show:true}
   },{
     path: '/room/search',
     name: 'RoomSearchView',
-    component: () => import(/* webpackChunkName: "about" */ '../views/RoomSearchView.vue'),
+    component: () => import('../views/RoomSearchView.vue'),
     meta: {show:true}
   },{
     path: '/room',
     name: 'RoomView',
-    component: () => import(/* webpackChunkName: "about" */ '../views/RoomView.vue'),
+    component: () => import('../views/RoomView.vue'),
     meta: {show:true}
-  },{
+  }/* ,{
     path: '/team/favour_list',
     name: 'TeamFavourView',
-    component: () => import(/* webpackChunkName: "about" */ '../views/TeamFavourView.vue'),
+    component: () => import('../views/TeamFavourView.vue'),
     meta: {show:true}
-  },{
+  } */,{
     path: '/whisper',
     name: 'MessageView',
-    component: () => import(/* webpackChunkName: "about" */ '../views/MessageView.vue'),
+    component: () => import('../views/MessageView.vue'),
     meta: {show:true}
   },{
     path: "*", redirect: "/"

@@ -62,7 +62,7 @@
         </div>
         <br>
         <div class="quick-access-grid">
-          <a class="quick-access-card" href="#">
+          <a class="quick-access-card" href="#" @click="jumpRoomSearch">
             <div class="quick-access-card-content-wrapper">
               <div class="content">
                 <div class="centered-icon">
@@ -83,7 +83,7 @@
               </div>
             </div>
           </a>
-          <a class="quick-access-card" href="#">
+          <a class="quick-access-card" href="#" @click="jumpTeamSearch" v-if="isStudent">
             <div class="quick-access-card-content-wrapper">
               <div class="content">
                 <div class="centered-icon">
@@ -93,13 +93,12 @@
                   </svg>
                 </div>
                 <div class="content-text">
-                  <div class="page-title">查找同学或队伍</div>
+                  <div class="page-title">查找队伍</div>
                 </div>
               </div>
             </div>
           </a>
-          <a class="quick-access-card"
-             href="#">
+          <a class="quick-access-card" href="#" @click="jumpUserSearch">
             <div class="quick-access-card-content-wrapper">
               <div class="content">
                 <div class="centered-icon">
@@ -113,13 +112,12 @@
                   </svg>
                 </div>
                 <div class="content-text">
-                  <div class="page-title">队伍管理</div>
+                  <div class="page-title">查找同学</div>
                 </div>
               </div>
             </div>
           </a>
-          <a class="quick-access-card"
-             href="#">
+          <a class="quick-access-card" href="#" @click="jumpTeam" v-if="isStudent">
             <div class="quick-access-card-content-wrapper">
               <div class="content">
                 <div class="centered-icon">
@@ -142,7 +140,37 @@
                   </svg>
                 </div>
                 <div class="content-text">
-                  <div class="page-title">不知道加什么功能</div>
+                  <div class="page-title">队伍管理</div>
+                </div>
+              </div>
+            </div>
+          </a>
+          <a class="quick-access-card" href="#" @click="inputGroup" v-if="isTeacher">
+            <div class="quick-access-card-content-wrapper">
+              <div class="content">
+                <div class="centered-icon">
+                  <svg fill="currentColor" fill-rule="evenodd" viewBox="0 0 24 24" width="24" height="24">
+                    <path d="M12 17h-1v5H8V11H3V8h9v9zm0-10c-1.65 0-3-1.35-3-3s1.35-3 3-3v6z"></path>
+                    <path d="M16 11v11h-3v-5h-1V8h9v3h-5zm-4-4V1c1.65 0 3 1.35 3 3s-1.35 3-3 3z" opacity=".8"></path>
+                  </svg>
+                </div>
+                <div class="content-text">
+                  <div class="page-title">批量导入</div>
+                </div>
+              </div>
+            </div>
+          </a>
+          <a class="quick-access-card" href="#" @click="outputGroup" v-if="isTeacher">
+            <div class="quick-access-card-content-wrapper">
+              <div class="content">
+                <div class="centered-icon">
+                  <svg fill="currentColor" fill-rule="evenodd" viewBox="0 0 24 24" width="24" height="24">
+                    <path d="M12 17h-1v5H8V11H3V8h9v9zm0-10c-1.65 0-3-1.35-3-3s1.35-3 3-3v6z"></path>
+                    <path d="M16 11v11h-3v-5h-1V8h9v3h-5zm-4-4V1c1.65 0 3 1.35 3 3s-1.35 3-3 3z" opacity=".8"></path>
+                  </svg>
+                </div>
+                <div class="content-text">
+                  <div class="page-title">批量导出</div>
                 </div>
               </div>
             </div>
@@ -150,6 +178,22 @@
         </div>
       </div>
 
+
+      <div class="modal-overlay" :style="{ display: isInput ? 'flex' : 'none' }">
+        <div class="modal-content">
+          <div class="close-button" @click="closeInputForm">x</div>
+          <button class="button" type="inputRoom">批量导入房间</button>
+          <button class="button" type="inputUser">批量导入学生</button>
+        </div>
+      </div>
+
+      <div class="modal-overlay" :style="{ display: isOutput ? 'flex' : 'none' }">
+        <div class="modal-content">
+          <div class="close-button" @click="closeOutputForm">x</div>
+          <button class="button" type="outputRoom">批量导出房间</button>
+          <button class="button" type="outputUser">批量导出学生</button>
+        </div>
+      </div>
 
     </main>
 
@@ -170,7 +214,11 @@ export default {
       studentId: '11910101',
       studentName: '张三',
       currentPeriod: '选房阶段',
-      userAvatarUrl: 'https://www.gstatic.com/pantheon/images/welcome/supercloud.svg'
+      userAvatarUrl: 'https://www.gstatic.com/pantheon/images/welcome/supercloud.svg',
+      isStudent: false,
+      isTeacher: true,
+      isInput: false,
+      isOutput: false,
     };
   },
   methods: {
@@ -182,7 +230,47 @@ export default {
       if (this.showDropdown) {
         this.showDropdown = false;
       }
-    }
+    },
+    getTeamId(){
+      return 123456;
+    },
+    jumpRoomSearch() {
+      this.$router.push({path:"/room/search"})
+    },
+    jumpTeamSearch() {
+      this.$router.push({path:"/team/search"})
+    },
+    jumpUserSearch() {
+      this.$router.push({path:"/user/search"})
+    },
+    jumpTeam() {
+      const id = this.getTeamId
+      this.$router.push({path:"/team",query: {id}})
+    },
+    inputGroup() {
+      this.isInput = true;
+    },
+    outputGroup() {
+      this.isOutput = true;
+    },
+    closeInputForm() {
+      this.isInput = false;
+    },
+    closeOutputForm() {
+      this.isOutput = false;
+    },
+    inputRoom(){
+
+    },
+    inputUser(){
+
+    },
+    outputRoom(){
+
+    },
+    outputUser(){
+
+    },
   },
   mounted() {
     document.addEventListener('click', this.closeDropdown);
@@ -367,7 +455,7 @@ a {
 
 .dashboard-footer {
   padding: 0.5rem;
-//background-color: #2b7de9; /* 页脚背景色 */ text-align: center; width: 100%; position: absolute; bottom: 0;
+  background-color: #2b7de9; /* 页脚背景色 */ text-align: center; width: 100%; position: absolute; bottom: 0;
 }
 
 .header-actions {
@@ -443,5 +531,54 @@ a {
 .dropdown li:hover {
   background-color: #f6f6f6;
 }
+
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+
+  .modal-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    max-width: 400px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  }
+
+  .close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+  }
+
+  .button {
+    margin-top: 1rem;
+    display: inline-block;
+    padding: 5px 10px;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    border: 2px solid #3498db; /* 边框颜色 */
+    color: #3498db; /* 文字颜色 */
+    background-color: #fff; /* 背景颜色 */
+    border-radius: 5px; /* 圆角 */
+    transition: background-color 0.3s, color 0.3s; /* 添加过渡效果 */
+  }
+
+  .button:hover {
+    background-color: #3498db; /* 鼠标悬停时的背景颜色 */
+    color: #fff; /* 鼠标悬停时的文字颜色 */
+  }
 </style>
 
